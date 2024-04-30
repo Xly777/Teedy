@@ -18,7 +18,7 @@ pipeline {
         }
         stage('surfire'){
             steps{
-                sh 'mvn -Dtest=TestCss test --fail-never DfailIfNoTests=false surefire-report:report'
+                sh 'mvn -Dtest=TestCss test --fail-never -DfailIfNoTests=false surefire-report:report'
             }
         }
     }
