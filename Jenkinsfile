@@ -6,19 +6,26 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('pmd') {
-            steps {
-                sh 'mvn pmd:pmd'
+        // Building Docker images
+        stage('Building image') {
+            steps{
+                //your command
+                sh 'docker build -t teedy .'
             }
         }
-        stage('javadoc'){
+        // Uploading Docker images into Docker Hub
+        stage('Upload image') {
             steps{
-                sh 'mvn javadoc:javadoc --fail-never'
+                //your command
+                sh 'docker push xerry777/teedy'
             }
         }
-        stage('surfire'){
+        //Running Docker container
+        stage('Run containers'){
             steps{
-                sh 'mvn -Dtest=TestCss test --fail-never -DfailIfNoTests=false surefire-report:report'
+                sh 'docker run -d -p 8084:8080 --name teedy_manual03 teedy'
+                sh 'docker run -d -p 8083:8080 --name teedy_manual02 teedy'
+                sh 'docker run -d -p 8082:8080 --name teedy_manual01 teedy'
             }
         }
     }
