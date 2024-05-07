@@ -24,17 +24,11 @@ pipeline {
         stage('Run containers'){
             steps{
                 sh 'docker run -d -p 8084:8080 --name teedy_manual03 teedy'
-                sh 'docker run -d -p 8083:8080 --name teedy_manual02 teedy'
-                sh 'docker run -d -p 8082:8080 --name teedy_manual01 teedy'
             }
         }
     }
 
     post {
-        always {
-            archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
-        }
+        
     }
 }
